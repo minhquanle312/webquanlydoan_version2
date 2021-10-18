@@ -4,10 +4,12 @@ const departmentSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      unique: true,
       required: [true, 'Department must have name'],
     },
     code: {
       type: String,
+      unique: true,
       required: [true, 'Department must have code'],
     },
     foundationDay: {
@@ -21,6 +23,12 @@ const departmentSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 )
+
+departmentSchema.virtual('specialities', {
+  ref: 'Speciality',
+  foreignField: 'departmentId',
+  localField: '_id',
+})
 
 const Department = mongoose.model('Department', departmentSchema)
 

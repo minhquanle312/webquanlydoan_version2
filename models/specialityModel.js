@@ -4,16 +4,19 @@ const specialitySchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      unique: true,
       required: [true, 'Speciality must have name'],
     },
     code: {
       type: String,
+      unique: true,
       required: [true, 'Speciality must have code'],
     },
     description: String,
     departmentId: {
       type: mongoose.Schema.ObjectId,
       ref: 'Department',
+      required: [true, 'Speciality must belong to a department'],
     },
   },
   {

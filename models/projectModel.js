@@ -14,12 +14,11 @@ const projectSchema = new mongoose.Schema(
     mark: {
       type: Number,
     },
-    usersId: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-      },
-    ],
+    userId: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'Project must belong to a user'],
+    },
     councilId: {
       type: mongoose.Schema.ObjectId,
       ref: 'Council',
@@ -33,7 +32,7 @@ const projectSchema = new mongoose.Schema(
 
 projectSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'usersId',
+    path: 'userId',
     select: 'name role',
   }).populate({
     path: 'councilId',

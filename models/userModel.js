@@ -11,13 +11,14 @@ const userSchema = new mongoose.Schema(
     },
     code: {
       type: String,
+      unique: true,
       required: [true, 'Each user must have user code'],
     },
     email: {
       type: String,
       required: [true, 'Please provide your email'],
       unique: true,
-      lowercase: true,
+      // lowercase: true,
       validate: [validator.isEmail, 'Please provide a valid email'],
     },
     avatar: String,
@@ -79,6 +80,7 @@ const userSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 )
 

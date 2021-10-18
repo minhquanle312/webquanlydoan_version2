@@ -7,19 +7,23 @@ const councilSchema = new mongoose.Schema(
       required: [true, 'Council must have a name'],
     },
     chairman: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
       required: [true, 'Council must have a chairman'],
     },
     secretary: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
       required: [true, 'Council must have a secretary'],
     },
     member: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
       required: [true, 'Council must have a member'],
     },
     reviewer: {
-      type: String,
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
       required: [true, 'Council must have a reviewer'],
     },
   },
@@ -28,6 +32,27 @@ const councilSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 )
+
+councilSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'chairman',
+    select: 'name',
+  })
+    .populate({
+      path: 'secretary',
+      select: 'name',
+    })
+    .populate({
+      path: 'member',
+      select: 'name',
+    })
+    .populate({
+      path: 'reviewer',
+      select: 'name',
+    })
+
+  next()
+})
 
 const Council = mongoose.model('Council', councilSchema)
 

@@ -4,10 +4,12 @@ const classSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      unique: true,
       required: [true, 'Class must have a name'],
     },
     code: {
       type: String,
+      unique: true,
       // required: [true, 'Class must have a class code'],
       // FIXME: SET DEFAULT EQUAL TO NAME IN MIDDLEWARE
     },
@@ -36,6 +38,7 @@ const classSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 )
 
