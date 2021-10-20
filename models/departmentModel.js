@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+// const AppError = require('../utils/appError')
+
+const Speciality = require('./specialityModel')
 
 const departmentSchema = new mongoose.Schema(
   {
@@ -28,6 +31,11 @@ departmentSchema.virtual('specialities', {
   ref: 'Speciality',
   foreignField: 'departmentId',
   localField: '_id',
+})
+
+departmentSchema.post('remove', { document: true, query: false }, function () {
+  // console.log(department)
+  Speciality.remove({ departmentId: this._id }).exec()
 })
 
 const Department = mongoose.model('Department', departmentSchema)

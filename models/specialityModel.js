@@ -25,14 +25,13 @@ const specialitySchema = new mongoose.Schema(
   }
 )
 
-specialitySchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'departmentId',
-    select: 'name',
-  })
-
-  next()
-})
+// specialitySchema.pre(/^find/, function (next) {
+//   this.populate({
+//     path: 'departmentId',
+//     select: 'name',
+//   })
+//   next()
+// })
 
 const Speciality = mongoose.model('Speciality', specialitySchema)
 

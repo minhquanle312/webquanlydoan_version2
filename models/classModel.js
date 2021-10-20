@@ -42,6 +42,12 @@ const classSchema = new mongoose.Schema(
   }
 )
 
+classSchema.virtual('users', {
+  ref: 'User',
+  foreignField: 'classId',
+  localField: '_id',
+})
+
 classSchema.pre('save', function (next) {
   if (!this.code) this.code = this.name
   next()
@@ -66,12 +72,6 @@ classSchema.pre(/^find/, function (next) {
     })
 
   next()
-})
-
-classSchema.virtual('users', {
-  ref: 'User',
-  foreignField: 'classId',
-  localField: '_id',
 })
 
 const Class = mongoose.model('Class', classSchema)

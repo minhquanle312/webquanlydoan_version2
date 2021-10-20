@@ -64,8 +64,6 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401))
   }
 
-  console.log(user)
-
   // 3) If everything ok, send token to client
   createSendToken(user, 200, res)
 })
@@ -80,7 +78,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1]
   }
 
-  console.log(token)
+  // console.log(token)
   if (!token) {
     return next(
       new AppError('You are not logged in! Please log in to get access', 401)

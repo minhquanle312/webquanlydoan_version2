@@ -4,11 +4,13 @@ const APIFeatures = require('../utils/apiFeatures')
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndDelete(req.params.id)
+    const doc = await Model.findOne({ _id: req.params.id })
 
     if (!doc) {
       return next(new AppError('No document found with that ID', 404))
     }
+
+    doc.remove()
 
     res.status(204).json({
       status: 'success',
@@ -64,7 +66,7 @@ exports.getAll = (Model) =>
     // WARNING:To allow for nested GET reviews on Tour (small hack :))
     // TODO: MAY BE MOST VALUE ON MY PROJECT
     let filter = {}
-    if (req.params.tourId) filter = { tour: req.params.tourId }
+    // if (req.params.tourId) filter = { tour: req.params.tourId }
 
     // EXECUTE QUERY
     const features = new APIFeatures(Model.find(filter), req.query)
